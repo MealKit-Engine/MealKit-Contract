@@ -12,7 +12,7 @@ $repo = Split-Path -Parent $PSScriptRoot
 
 $commit = (& git -C $repo rev-parse --short "$Ref^{commit}").Trim()
 if ($LASTEXITCODE -ne 0) { throw "not a git commit: $Ref" }
-$tag = (& git -C $repo describe --tags --exact-match $commit 2>$null)
+$tag = (& cmd /c "git -C `"$repo`" describe --tags --exact-match $commit 2>nul") # no tag is not an error (cmd keeps git's stderr out of PowerShell)
 if ($LASTEXITCODE -ne 0) { $tag = "" }
 $cmake = (& git -C $repo show "${commit}:CMakeLists.txt") -join "`n"
 if ($cmake -notmatch 'project\(mkcontract VERSION ([0-9.]+)') { throw "CMakeLists.txt has no project(mkcontract VERSION ...)" }
