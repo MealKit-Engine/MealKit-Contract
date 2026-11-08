@@ -119,9 +119,13 @@ The engine's `tools\module.ps1 search -Tsv -Project <folder>` prints the project
 one item per line, fields separated by tabs (tabs and line breaks inside fields become spaces), UTF-8.
 
 ```text
-installed <name> <version> <modified file count> <.new file count> <source>
-module    <name> <version for this engine, or -> <newest version> <engine MAJOR.MINOR of that> <title> <summary> <tags (space-separated)> <author> <repo>
+installed <name> <version> <modified file count> <.new file count> <source> <type> <title> <summary> <tags> <icon>
+module    <name> <version for this engine, or -> <newest version> <engine MAJOR.MINOR of that> <title> <summary> <tags (space-separated)> <author> <repo> <icon>
 error     <why the registry list couldn't be fetched>
 ```
+
+`type` is `engine` or `source`; `title`, `summary`, `tags` and `icon` come from the module's `module.txt` (`icon` is one keyword such as `gameplay` or `audio`, blank when the module gives none;
+each program picks the picture for a keyword and falls back to its tags). The columns after `<source>` on `installed` lines and `<icon>` on `module` lines came in contract 0.2;
+an older engine leaves them out and readers take them as blank.
 
 Readers skip unknown lines and ignore extra fields, so new line kinds and columns can be added at the end.

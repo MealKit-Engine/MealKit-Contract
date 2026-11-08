@@ -210,6 +210,14 @@ void testModules() {
     CHECK(list.registry.size() == 1 && list.registry[0].version.empty() && list.registry[0].latest == "0.3.0" &&
           list.registry[0].latestEngine == "0.8" && list.registry[0].repo == "https://example.com/h");
     CHECK(list.error == "offline");
+    CHECK(list.installed[0].type.empty() && list.registry[0].icon.empty()); // older engine: no later columns
+
+    const ModuleList full = parseModuleList("installed\taudio\t0.1.2\t0\t0\tengine audio\tengine\taudio\tSound\tengine audio\taudio\n"
+                                            "module\tcooldown\t0.1.0\t0.1.0\t0.5\tCooldowns\tTimers\tgameplay timer\tme\thttps://example.com/c\ttimer\n");
+    CHECK(full.installed.size() == 1 && full.installed[0].type == "engine" && full.installed[0].summary == "Sound" &&
+          full.installed[0].tags == "engine audio" && full.installed[0].icon == "audio");
+    CHECK(full.registry.size() == 1 && full.registry[0].icon == "timer");
+    CHECK(hasTag("gameplay timer ui", "timer") && hasTag("ui", "ui") && !hasTag("gameplay timers", "timer") && !hasTag("", "ui"));
 }
 
 } // namespace
