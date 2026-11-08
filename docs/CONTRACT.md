@@ -128,4 +128,10 @@ error     <why the registry list couldn't be fetched>
 each program picks the picture for a keyword and falls back to its tags). The columns after `<source>` on `installed` lines and `<icon>` on `module` lines came in contract 0.2;
 an older engine leaves them out and readers take them as blank.
 
+### Module icons
+
+`icon` keywords, in `kModuleIconKeywords`: `gameplay game timer combat health ai map save ui audio render rhi camera physics net online input data asset scene debug tool editor settings loc feedback live session sim`.
+`moduleIconKeyword(icon, tags, name)` picks the one to show: `icon` if it is a keyword, else the first tag that is one (not `engine`), else the name or the part before its `-`, else blank.
+Each program maps keywords to its own pictures (the editor and MealKit Manager use Segoe Fluent Icons glyphs, the registry site emoji) and draws a default for blank. New keywords are added at the end.
+
 Readers skip unknown lines and ignore extra fields, so new line kinds and columns can be added at the end.

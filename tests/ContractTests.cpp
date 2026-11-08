@@ -217,6 +217,8 @@ void testModules() {
     CHECK(full.installed.size() == 1 && full.installed[0].type == "engine" && full.installed[0].summary == "Sound" &&
           full.installed[0].tags == "engine audio" && full.installed[0].icon == "audio");
     CHECK(full.registry.size() == 1 && full.registry[0].icon == "timer");
+    CHECK(moduleIconKeyword("timer", "gameplay", "x") == "timer" && moduleIconKeyword("nope", "engine ui", "x") == "ui" &&
+          moduleIconKeyword("", "engine", "online-steam") == "online" && moduleIconKeyword("", "", "zzz").empty());
     CHECK(hasTag("gameplay timer ui", "timer") && hasTag("ui", "ui") && !hasTag("gameplay timers", "timer") && !hasTag("", "ui"));
 }
 
