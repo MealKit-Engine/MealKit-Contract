@@ -1,4 +1,4 @@
-# Copies mkcontract into another repository's third_party folder (MealKit Manager, MealKit Audio, other tools).
+# Copies mkcontract into another repository's third_party folder (MealKit Manager, MkAudio, other tools).
 #   powershell -ExecutionPolicy Bypass -File tools\vendor.ps1 -To <repo>\third_party\mkcontract [-Ref v0.1.0]
 # - Extracts -Ref (tag/commit, default HEAD) with git archive, so uncommitted edits in this checkout don't go along
 # - Copies CMakeLists.txt, include/, src/, LICENSE and writes VERSION.txt ("<tag or version+commit> (<commit>)"). Tests, docs and CI stay here
