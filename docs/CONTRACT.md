@@ -85,6 +85,7 @@ A folder that has a manifest is one tool; otherwise each folder directly under i
 Tools are listed by name.
 
 **Opening a tool**: `"<exe>" --project "<project folder>"`, working folder = the manifest folder.
+To open one file in a tool whose `opens` lists its extension, hosts add `--file "<asset path>"` (relative to `assets/`, `/` separators, such as `ui/menu.ui`). A tool that takes no file ignores it.
 
 ## Live connection
 
