@@ -13,6 +13,7 @@ Changing the contract means changing this page, the code and the tests in one co
 | [Tool manifest](#tool-manifest) | `@format tool <N>` | `mkcontract/Tool.h` |
 | [Live connection](#live-connection) | `live::kProtocol` | `mkcontract/Live.h`, `Client.h`, `Json.h` |
 | [Module list](#module-list) | none yet (new columns are appended) | `mkcontract/Modules.h` |
+| [Object kinds](#object-kinds) | `@format object-kinds <N>` | none (the engine writes it, MkRender reads it) |
 
 ## Text files
 
@@ -113,6 +114,49 @@ Several instances of one project (an editor plus game windows) each have their o
 - The host handles requests on its main thread between frames: keep them short.
 
 `live::kProtocol` (currently **1**) is bumped when a path or response shape changes. Tools say which version they speak in their manifest.
+
+## Object kinds
+
+`<project>/build/editor/kinds.txt` describes the scene object kinds of a project, so tools that edit `.scene` files without the engine
+(MkRender) show the same kinds, fields and defaults as the editor. The engine writes it (`scene::writeObjectKinds`): the editor each time it
+loads the game code, and `<game>_headless --write-kinds` without the editor. It is rewritten only when its text changes. Not in git (under `build/`).
+
+```text
+# MealKit object kinds (...)
+@format object-kinds 1
+
+kind point_light
+label Point light
+flags marker cosmetic
+field range
+type float
+default 6
+label Range (m)|gizmo=radius
+
+kind JumpPad
+label Jump pad
+game
+field power
+type float
+default 14
+```
+
+`key value` lines in blocks. `kind <name>` starts a kind (its scene file `kind` value); the keys after it belong to the kind until the first
+`field`, and the keys after `field <path>` belong to that field until the next `field` or `kind`.
+
+| Key | Of | What |
+|---|---|---|
+| `kind` | | kind name; built-in kinds come first, then the game's |
+| `label` | kind, field | display name. A field label may end with `\|hint` parts (`gizmo=radius`) |
+| `game` | kind | declared by the game (`MEALKIT_OBJECT`), not built in |
+| `flags` | kind | space-separated: `marker` (position only), `area` (size only, drawn as a box), `cosmetic` (no effect on results) |
+| `field` | | field path as written in scene `field` lines (`a.b`, `a[2]`) |
+| `type` | field | `bool int uint float enum vec3 quat string seconds color row id text` |
+| `default` | field | default value text as in scene files (missing = empty) |
+| `enum` | field | value names of an `enum`, space-separated, in order from 0 |
+| `flags` | field | `view` (outside the content hash), `readonly` (written by tools, shown not edited) |
+
+Readers ignore unknown keys and types (show the field as text). Without the file a tool shows field lines as text.
 
 ## Module list
 
