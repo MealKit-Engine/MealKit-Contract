@@ -115,6 +115,19 @@ Several instances of one project (an editor plus game windows) each have their o
 
 `live::kProtocol` (currently **1**) is bumped when a path or response shape changes. Tools say which version they speak in their manifest.
 
+### Scene service
+
+The editor adds `scene/` so the MkRender scene editor can use the editor's play view (the editor plays; MkRender only edits files). Requests act on the **saved** scene file: the tool saves first.
+
+| Path | Body | What |
+|---|---|---|
+| `GET scene/state` | | `{"mode":"edit"\|"play","scene":"scenes/x.scene","dirty":bool,"game":bool,"players":n}` (`scene` relative to `assets/`, `dirty` = the editor's own unsaved edits, `game` = game code loaded) |
+| `POST scene/play` | `file`, optional `from=1`, `x`, `y`, `z`, `yaw` (radians, the editor camera's), `spawn` (object id) | opens or reloads `file` (relative to `assets/`) and plays it; `from=1` plays from that camera (solo only): a `spawn` that is a spawn point is used as is, otherwise spawn points move to the floor under the camera |
+| `POST scene/stop` | | stops play, or ends a look-through/cutscene preview |
+| `POST scene/look` | `file`, `camera` (virtual camera id) or `cutscene` (name) | in edit mode: the editor's view looks through that virtual camera, or previews the cutscene |
+
+Errors are `{"ok":false,"error":"…"}` with 409 (playing, game code not loaded, the editor has unsaved edits of its open scene) or 404 (no such file, camera or cutscene).
+
 ## Object kinds
 
 `<project>/build/editor/kinds.txt` describes the scene object kinds of a project, so tools that edit `.scene` files without the engine
