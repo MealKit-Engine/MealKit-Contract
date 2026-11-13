@@ -50,7 +50,7 @@ The environment variable `MEALKIT_USER_DIR` replaces the whole folder (tests).
 | `recent_projects.txt` | list | project folders, most recently opened first, at most 100 |
 | `favorite_projects.txt` | list | project folders |
 | `engines.txt` | list | engine folders added by hand in MealKit Manager |
-| `editor_settings.txt` | `key value` | editor settings. Others read `language` (`ko`, `en`) and `toolPath <folder>` (repeatable) |
+| `editor_settings.txt` | `key value` | editor settings. Others read `language` (`ko`, `en`) and `toolPath <folder>` (repeatable); MealKit Manager also writes `language` (one line replaced, the rest kept) |
 | `tools/<tool>/` | folder | installed tools, each with a [manifest](#tool-manifest) |
 | `manager/MealKitManager.exe` | file | installed MealKit Manager (the editor starts it when opened without a project) |
 

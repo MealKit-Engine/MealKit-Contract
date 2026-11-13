@@ -115,6 +115,11 @@ void testUser(const fs::path& root) {
     writeFile(userPath(kEditorSettings), "# editor\nlanguage en\ntoolPath " + str(root / "extra") + "\n");
     CHECK(editorSetting("language") == "en");
     CHECK(toolPaths().size() == 1);
+    CHECK(setEditorSetting("language", "ko") && editorSetting("language") == "ko" && toolPaths().size() == 1);
+    std::string settings;
+    readFile(userPath(kEditorSettings), settings);
+    CHECK(settings.rfind("# editor\nlanguage ko\n", 0) == 0); // the comment and the line's place are kept
+    CHECK(setEditorSetting("language", "") && editorSetting("language").empty() && toolPaths().size() == 1);
 }
 
 void testTools(const fs::path& root) {
