@@ -52,6 +52,7 @@ The environment variable `MEALKIT_USER_DIR` replaces the whole folder (tests).
 | `engines.txt` | list | engine folders added by hand in MealKit Manager |
 | `editor_settings.txt` | `key value` | editor settings. Others read `language` (`ko`, `en`) and `toolPath <folder>` (repeatable); MealKit Manager also writes `language` (one line replaced, the rest kept) |
 | `tools/<tool>/` | folder | installed tools, each with a [manifest](#tool-manifest) |
+| `available_tools.txt` | `@format available-tools 1`, then `name<TAB>version<TAB>summary<TAB>icon` lines | tools MealKit Manager can install on this PC (its release index, filtered to the installed engines and this protocol). Rewritten by the Manager when it reads the index; other hosts list the names they don't find installed and send people to the Manager (`MealKitManager --tools`) |
 | `manager/MealKitManager.exe` | file | installed MealKit Manager (the editor starts it when opened without a project) |
 
 Folders in lists are absolute, with the OS's separators and no trailing separator. Two entries are the same folder if they are equal after
@@ -78,6 +79,8 @@ opens .events .wav
 | `protocol` | yes | the [live connection](#live-connection) version the tool speaks. Hosts warn and don't open a tool whose version differs from theirs |
 | `version` | no | the tool's own version, shown only |
 | `opens` | no | file extensions the tool opens, space-separated |
+| `summary` | no | one line hosts show under the name (MealKit Manager's Tools page) |
+| `icon` | no | one keyword hosts pick a picture for (`audio`, `ui`, `render`, ...), like [module icons](#module-icons) |
 
 Unknown keys are reported and ignored.
 

@@ -125,7 +125,8 @@ void testUser(const fs::path& root) {
 void testTools(const fs::path& root) {
     const fs::path installed = root / "user" / kToolsFolder;
     writeFile(str(installed / "audio" / kToolManifest),
-              "# MealKit tool manifest\n@format tool 1\nname Audio\nexe bin/MealKitAudio.exe\nversion 0.2.0\nprotocol 1\nopens .events .wav\n");
+              "# MealKit tool manifest\n@format tool 1\nname Audio\nexe bin/MealKitAudio.exe\nversion 0.2.0\nprotocol 1\nopens .events .wav\n"
+              "summary Game sound events\nicon audio\n");
     writeFile(str(installed / "broken" / kToolManifest), "name Broken\nexe x.exe\n"); // no protocol
     writeFile(str(installed / "newer" / kToolManifest), "@format tool 2\nname Newer\nexe n.exe\nprotocol 1\nshape round\n");
     // A toolPath folder that is itself a tool, with a name that's already taken: the first one (installed) wins
@@ -136,6 +137,7 @@ void testTools(const fs::path& root) {
     CHECK(readToolManifest(str(installed / "audio"), t, &error));
     CHECK(t.name == "Audio" && t.version == "0.2.0" && t.protocol == 1 && t.warnings.empty());
     CHECK(t.opens == (std::vector<std::string>{".events", ".wav"}));
+    CHECK(t.summary == "Game sound events" && t.icon == "audio");
     CHECK(pathOf(t.exe).is_absolute() && pathOf(t.exe).filename() == "MealKitAudio.exe");
     CHECK(!readToolManifest(str(installed / "broken"), t, &error) && !error.empty());
     CHECK(!readToolManifest(str(root / "nothing"), t, &error));
@@ -148,6 +150,11 @@ void testTools(const fs::path& root) {
     CHECK(tools.size() == 2 && tools[0].name == "Audio" && tools[1].name == "Newer");
     CHECK(tools.size() == 2 && pathOf(tools[0].exe).filename() == "MealKitAudio.exe");
     CHECK(errors.size() == 1);
+
+    CHECK(writeAvailableTools({{"MkRender", "0.2.0", "Scenes\tand materials", "render"}, {"MkUI", "0.1.5", "", ""}}));
+    const std::vector<AvailableTool> available = readAvailableTools();
+    CHECK(available.size() == 2 && available[0].name == "MkRender" && available[0].summary == "Scenes and materials" && available[0].icon == "render");
+    CHECK(available.size() == 2 && available[1].version == "0.1.5" && available[1].summary.empty());
     // A command line folder comes first and overrides
     CHECK(findTools(toolSearchRoots({str(root / "extra")}))[0].exe.find("other.exe") != std::string::npos);
 }
