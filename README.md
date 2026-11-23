@@ -3,7 +3,7 @@
 The contract between the [MealKit](https://github.com/MealKit-Engine/MealKit) engine, its editor, [MealKit Manager](https://github.com/MealKit-Engine/MealKit-Manager)
 and MealKit tools such as [MkAudio](https://github.com/MealKit-Engine/MkAudio): the spec ([docs/CONTRACT.md](docs/CONTRACT.md)) and its C++ implementation `mkcontract`. Free, MIT.
 
-> **Beta (v0.x).** MealKit is under active development: APIs and file formats may change between versions until v1.0, and projects are moved forward with the upgrade tool. Feedback and bug reports are welcome.
+> **Beta (v0.x).** MealKit is under active development: APIs and file formats may change between versions, and projects are moved forward with the upgrade tool. Feedback and bug reports are welcome.
 
 They share files and a local HTTP connection only, so each one ships on its own schedule. `mkcontract` is the one place those rules live:
 
