@@ -1,6 +1,6 @@
 # mkcontract: the contract between MealKit tools (MealKit-Contract). Built standalone it includes tests; added by another project with
 # add_subdirectory, only the libraries.
-#   cmake -S . -B build && cmake --build build && ctest --test-dir build
+#   cmake -S . -B build/linux && cmake --build build/linux && ctest --test-dir build/linux   (build/<os>: windows, linux, macos)
 # Targets:
 #   mkcontract          text files, user folder, tool manifests, live connection info, module list (standard library only)
 #   mkcontract_client   live connection client (sockets). Tools link it; the engine doesn't

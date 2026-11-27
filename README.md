@@ -44,9 +44,9 @@ The MealKit engine pulls it with its own `tools\update_mkcontract.ps1` (which al
 Windows (Visual Studio 2022, CMake 3.25+, Ninja): `build.bat`. Elsewhere:
 
 ```
-cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
-cmake --build build
-ctest --test-dir build --output-on-failure
+cmake -S . -B build/linux -G Ninja -DCMAKE_BUILD_TYPE=Release   # build/<os>: windows, linux, macos
+cmake --build build/linux
+ctest --test-dir build/linux --output-on-failure
 ```
 
 CI builds and tests on Windows, Linux and macOS.
